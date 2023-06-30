@@ -18,10 +18,13 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems } from './listitems';
-import Player from './PlayerPage';
-import PlayerList from './PlayerList';
+import ContinentList from './ContinentList';
 import { Route, Routes } from 'react-router-dom';
-import PlayerPage from './PlayerPage';
+import CountriesList from './CountriesList';
+import AdminDivList from './AdminDivList';
+import CitiesList from './CitiesList';
+import City from './City';
+import FindClosest from './FindClosest';
 
 function Copyright(props) {
   return (
@@ -164,8 +167,12 @@ export default function Dashboard() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Routes>
-              <Route path='/playerlist' element={<PlayerList />} />
-              <Route path='/player/*' element={<PlayerPage />} />
+              <Route path='/continentlist' element={<ContinentList />} />
+              <Route path='/continent/*' element={<CountriesList />} />
+              <Route path='/country/*' element={<AdminDivList />} />
+              <Route path='/area/*' element={<CitiesList />} />
+              <Route path='/city/*' element={<City />} />
+              <Route path='/findclosest/*' element={<FindClosest />} />
             </Routes>
             <Copyright sx={{ pt: 4 }} />
           </Container>
