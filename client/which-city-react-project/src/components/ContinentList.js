@@ -5,6 +5,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { Autocomplete, TextField } from '@mui/material';
 import { GoogleMap, LoadScript } from '@react-google-maps/api';
+import { CircularProgress, Breadcrumbs, Typography } from '@mui/material'
 import "../stylesheets/lists.css"
 
 export default function ContinentList() {
@@ -17,12 +18,12 @@ export default function ContinentList() {
     const containerStyle = {
         width: '400px',
         height: '400px'
-      };
-      
-      const center = {
+    };
+
+    const center = {
         lat: -3.745,
         lng: -38.523
-      };
+    };
 
     useEffect(() => {
         setLoading(true)
@@ -36,7 +37,7 @@ export default function ContinentList() {
             });
     }, [])
 
-    if (loading) return "Loading..."
+    if (loading) return <CircularProgress />
 
     return (
         <>
@@ -44,27 +45,21 @@ export default function ContinentList() {
                 Continents
             </div>
             <div>
-                <LoadScript
-                    googleMapsApiKey= ""
-                >
-                    <GoogleMap
-                        mapContainerStyle={containerStyle}
-                        center={center}
-                        zoom={10}
-                    >
-                        { /* Child components, such as markers, info windows, etc. */}
-                        <></>
-                    </GoogleMap>
-                </LoadScript>
+                <Breadcrumbs aria-label="breadcrumb">
+                    <Typography color="text.primary">Continents</Typography>
+                </Breadcrumbs>
             </div>
             <div>
-                <Autocomplete
-                    disablePortal
-                    id="continent-ac"
-                    options={acOptions}
-                    sx={{ width: 300 }}
-                    renderInput={(params) => <TextField {...params} label="Continent" />}
-                />
+                <iframe
+                    width="600"
+                    height="450"
+                    style={{border:0}}
+                    loading="lazy"
+                    allowfullscreen
+                    referrerpolicy="no-referrer-when-downgrade"
+                    src="https://www.google.com/maps/embed/v1/place?key=API_KEY
+    &q=Space+Needle,Seattle+WA">
+                </iframe>
             </div>
             <div>
                 {continents.map(c => (

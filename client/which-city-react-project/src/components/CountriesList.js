@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Link } from 'react-router-dom';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
+import { CircularProgress, Breadcrumbs, Typography } from '@mui/material';
 
 export default function CountriesList() {
     const apiUrl = 'http://localhost:8000/api/countries';
@@ -13,6 +14,7 @@ export default function CountriesList() {
     }
 
     const [countries, setCountries] = useState([])
+    const [continent, setContinent] = useState([])
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -27,12 +29,32 @@ export default function CountriesList() {
             });
     }, [])
 
-    if (loading) return "Loading..."
+    useEffect(() => {
+        setLoading(true)
+        axios.get('http://localhost:8000/api/continent', apiOptions)
+            .then(response => {
+                setContinent(response.data)
+                setLoading(false)
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, [])
+
+    if (loading) return <CircularProgress />
 
     return (
         <>
             <div className='list-title'>
                 Countries
+            </div>
+            <div>
+                <Breadcrumbs aria-label="breadcrumb">
+                    <Link underline="hover" color="inherit" to="/dashboard/continentlist">
+                        Continents
+                    </Link>
+                    <Typography color="text.primary">{continent.name}</Typography>
+                </Breadcrumbs>
             </div>
             <div>
                 {countries.map(c => (
