@@ -45,7 +45,7 @@ export default function ContinentList() {
             </div>
             <div>
                 <LoadScript
-                    googleMapsApiKey= 
+                    googleMapsApiKey= ""
                 >
                     <GoogleMap
                         mapContainerStyle={containerStyle}

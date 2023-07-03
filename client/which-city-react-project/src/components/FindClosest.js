@@ -97,7 +97,7 @@ export default function FindClosest() {
             </div>
             <div>
                 {relevantUas.length > 0 ? relevantUas.map(ua => (
-                    <ListItemButton key={ua.name} component={Link} to={"/dashboard/city/"}>
+                    <ListItemButton key={ua.name} component={Link} to={"/dashboard/city/" + ua.uaid}>
                         <ListItemText primary={ua.name + ", " + ua.country} />
                     </ListItemButton>
                 )) : "No Relative Urban Area Available"}
