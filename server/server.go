@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -253,7 +252,6 @@ func handleUasApiCall(w http.ResponseWriter, r *http.Request) {
 	url := ""
 
 	if uaID != "" {
-		fmt.Println(uaID)
 		url = "https://api.teleport.org/api/urban_areas/" + uaID + "/"
 	} else {
 		url = "https://api.teleport.org/api/urban_areas/"

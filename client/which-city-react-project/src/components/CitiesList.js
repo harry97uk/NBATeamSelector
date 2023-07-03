@@ -32,7 +32,7 @@ export default function CitiesList() {
 
     return (
         <>
-            <div>
+            <div className='list-title'>
                 Cities
             </div>
             <div>

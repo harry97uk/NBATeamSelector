@@ -25,6 +25,7 @@ import AdminDivList from './AdminDivList';
 import CitiesList from './CitiesList';
 import City from './City';
 import FindClosest from './FindClosest';
+import CityForm from './CityForm';
 
 function Copyright(props) {
   return (
@@ -126,7 +127,7 @@ export default function Dashboard() {
               Dashboard
             </Typography>
             <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
+              <Badge badgeContent={0} color="secondary">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
@@ -167,6 +168,7 @@ export default function Dashboard() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Routes>
+              <Route path='/cityfinder' element={<CityForm />} />
               <Route path='/continentlist' element={<ContinentList />} />
               <Route path='/continent/*' element={<CountriesList />} />
               <Route path='/country/*' element={<AdminDivList />} />

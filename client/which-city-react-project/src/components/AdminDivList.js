@@ -32,7 +32,7 @@ export default function AdminDivList() {
 
     return (
         <>
-            <div>
+            <div className='list-title'>
                 Areas
             </div>
             <div>

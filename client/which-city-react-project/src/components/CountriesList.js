@@ -31,13 +31,20 @@ export default function CountriesList() {
 
     return (
         <>
-            <div>
+            <div className='list-title'>
                 Countries
             </div>
             <div>
                 {countries.map(c => (
                     <ListItemButton key={c.name} component={Link} to={"/dashboard/country/" + c.href.split("/").slice(-2)[0]}>
                         <ListItemText primary={c.name} />
+                        <img
+                            loading="lazy"
+                            width="20"
+                            src={`https://flagcdn.com/w20/${c.href.split("/").slice(-2)[0].split(":")[1].toLowerCase()}.png`}
+                            srcSet={`https://flagcdn.com/w40/${c.href.split("/").slice(-2)[0].split(":")[1].toLowerCase()}.png 2x`}
+                            alt=""
+                        />
                     </ListItemButton>
                 ))}
             </div>

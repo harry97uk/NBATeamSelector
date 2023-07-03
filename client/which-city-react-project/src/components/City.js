@@ -31,6 +31,9 @@ export default function City() {
 
     return (
         <>
+            <div className='list-title'>
+                City
+            </div>
             <div>
                 <ListItemText primary={city.full_name} />
                 <ListItemText primary={"Population: " + city.population} />

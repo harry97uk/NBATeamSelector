@@ -13,7 +13,7 @@ export default function FindClosest() {
     }
 
     const [uas, setUas] = useState([])
-    const [ua, setUa] = useState([])
+    const [relevantUas, setRelevantUas] = useState([])
     const [loading, setLoading] = useState(true)
 
     let uasData = []
@@ -41,7 +41,8 @@ export default function FindClosest() {
                                 name: response.data.name,
                                 area: response.data._links['ua:admin1-divisions'].length > 0 ? response.data._links['ua:admin1-divisions'][0].name : "Gibraltar",
                                 continent: response.data._links['ua:continent'].name,
-                                country: response.data._links['ua:countries'][0].name
+                                country: response.data._links['ua:countries'][0].name,
+                                uaid: response.data.ua_id
                             };
                             return uaData;
                         })
@@ -62,7 +63,6 @@ export default function FindClosest() {
                             }
                         })
                             .then(response => {
-                                console.log(uasData);
                                 let uas = uasData.filter(ua => ua.area === response.data.full_name.split(", ")[1] && ua.country === response.data.full_name.split(", ")[2]);
                                 if (uas.length === 0) {
                                     uas = uasData.filter(ua => {
@@ -70,7 +70,8 @@ export default function FindClosest() {
                                     });
                                 }
                                 // Use the filtered uas
-                                setUa(uas)
+                                setRelevantUas(uas)
+                                setLoading(false)
                             })
                             .catch(error => {
                                 console.error(error);
@@ -91,12 +92,16 @@ export default function FindClosest() {
 
     return (
         <>
-            <div>
-                Urban Area
+            <div className='list-title'>
+                Urban Areas
             </div>
             <div>
-                {uas}
+                {relevantUas.length > 0 ? relevantUas.map(ua => (
+                    <ListItemButton key={ua.name} component={Link} to={"/dashboard/city/"}>
+                        <ListItemText primary={ua.name + ", " + ua.country} />
+                    </ListItemButton>
+                )) : "No Relative Urban Area Available"}
             </div>
         </>
-    )
+    );
 }
