@@ -1,29 +1,21 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom';
+import Button from '@mui/material/Button';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import { Autocomplete, TextField } from '@mui/material';
-import { GoogleMap, LoadScript } from '@react-google-maps/api';
 import { CircularProgress, Breadcrumbs, Typography } from '@mui/material'
+import { useGoogleMapsApiKey } from './CustomHooks/customHooks';
 import "../stylesheets/lists.css"
 
 export default function ContinentList() {
     const apiUrl = 'http://localhost:8000/api/continents';
 
     const [continents, setContinents] = useState([])
-    const acOptions = useMemo(() => continents.map(c => c.name), [continents]);
     const [loading, setLoading] = useState(true)
-
-    const containerStyle = {
-        width: '400px',
-        height: '400px'
-    };
-
-    const center = {
-        lat: -3.745,
-        lng: -38.523
-    };
+    const gak = useGoogleMapsApiKey();
+    const [selectedItemIndex, setSelectedItemIndex] = useState(null);
+    const [mapPosition, setMapPosition] = useState("Europe")
 
     useEffect(() => {
         setLoading(true)
@@ -37,37 +29,56 @@ export default function ContinentList() {
             });
     }, [])
 
+    const handleItemClick = (index) => {
+        setSelectedItemIndex(index);
+        setMapPosition(continents[index].name)
+    };
+
+    const handleConfirmButtonClick = (href) => {
+        return `/dashboard/continent/${href.split('/').slice(-2)[0]}`
+    };
+
     if (loading) return <CircularProgress />
 
     return (
         <>
             <div className='list-title'>
-                Continents
-            </div>
-            <div>
                 <Breadcrumbs aria-label="breadcrumb">
                     <Typography color="text.primary">Continents</Typography>
                 </Breadcrumbs>
             </div>
-            <div>
+            <div id='map-container'>
                 <iframe
                     width="600"
                     height="450"
-                    style={{border:0}}
+                    style={{ border: 0 }}
                     loading="lazy"
-                    allowfullscreen
-                    referrerpolicy="no-referrer-when-downgrade"
-                    src="https://www.google.com/maps/embed/v1/place?key=API_KEY
-    &q=Space+Needle,Seattle+WA">
+                    allowFullScreen={false}
+                    referrerPolicy="no-referrer-when-downgrade"
+                    src={"https://www.google.com/maps/embed/v1/place?key=" + gak + "&q=" + mapPosition}>
                 </iframe>
             </div>
             <div>
-                {continents.map(c => (
-                    <ListItemButton key={c.name} component={Link} to={"/dashboard/continent/" + c.href.split("/").slice(-2)[0]}>
+                {continents.map((c, index) => (
+                    <ListItemButton key={c.name} onClick={() => handleItemClick(index)} sx={{
+                        width: 1 / 3,
+                    }}>
                         <ListItemText primary={c.name} />
+                        {selectedItemIndex === index ? (
+                            <Button
+                                variant="contained"
+                                component={Link}
+                                to={handleConfirmButtonClick(c.href)}
+                            >
+                                Go
+                            </Button>
+                        ) : null}
                     </ListItemButton>
                 ))}
             </div>
         </>
     )
 }
+
+
+//component={Link} to={"/dashboard/continent/" + c.href.split("/").slice(-2)[0]}

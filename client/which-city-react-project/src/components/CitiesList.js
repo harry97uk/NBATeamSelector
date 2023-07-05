@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom';
+import { Button } from '@mui/material';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import { Breadcrumbs, Typography } from '@mui/material';
+import { Breadcrumbs, CircularProgress, Typography } from '@mui/material';
+import { useGoogleMapsApiKey } from './CustomHooks/customHooks';
 
 export default function CitiesList() {
     const apiUrl = 'http://localhost:8000/api/cities';
@@ -18,6 +20,9 @@ export default function CitiesList() {
     const [area, setArea] = useState([])
     const [country, setCountry] = useState([])
     const [loading, setLoading] = useState(true)
+    const [selectedItemIndex, setSelectedItemIndex] = useState(null);
+    const [mapPosition, setMapPosition] = useState("Europe")
+    const gak = useGoogleMapsApiKey()
 
     useEffect(() => {
         setLoading(true)
@@ -48,6 +53,7 @@ export default function CitiesList() {
         axios.get('http://localhost:8000/api/area', apiOptions)
             .then(response => {
                 setArea(response.data)
+                setMapPosition(response.data.name)
                 setLoading(false)
             })
             .catch(error => {
@@ -55,7 +61,16 @@ export default function CitiesList() {
             });
     }, [])
 
-    if (loading) return "Loading..."
+    const handleItemClick = (index) => {
+        setSelectedItemIndex(index);
+        setMapPosition(cities[index].name)
+    };
+
+    const handleConfirmButtonClick = (href) => {
+        return "/dashboard/city/" + href.split("/").slice(-2)[0]
+    };
+
+    if (loading) return <CircularProgress />
 
     return (
         <>
@@ -76,10 +91,32 @@ export default function CitiesList() {
                     <Typography color="text.primary">{area.name}</Typography>
                 </Breadcrumbs>
             </div>
+            <div id='map-container'>
+                <iframe
+                    width="600"
+                    height="450"
+                    style={{ border: 0 }}
+                    loading="lazy"
+                    allowFullScreen={false}
+                    referrerPolicy="no-referrer-when-downgrade"
+                    src={"https://www.google.com/maps/embed/v1/place?key=" + gak + "&q=" + mapPosition}>
+                </iframe>
+            </div>
             <div>
-                {cities.length > 0 ? cities.map(c => (
-                    <ListItemButton key={c.href} component={Link} to={"/dashboard/city/" + c.href.split("/").slice(-2)[0]}>
+                {cities.length > 0 ? cities.map((c, index) => (
+                    <ListItemButton key={c.name} onClick={() => handleItemClick(index)} sx={{
+                        width: 1 / 3,
+                    }}>
                         <ListItemText primary={c.name} />
+                        {selectedItemIndex === index ? (
+                            <Button
+                                variant="contained"
+                                component={Link}
+                                to={handleConfirmButtonClick(c.href)}
+                            >
+                                Go
+                            </Button>
+                        ) : null}
                     </ListItemButton>
                 )) : "No Listed Cities"}
             </div>

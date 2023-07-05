@@ -28,7 +28,7 @@ export const mainListItems = (
             <ListItemIcon>
                 <SearchIcon />
             </ListItemIcon>
-            <ListItemText primary="City Search" />
+            <ListItemText primary="Explore" />
         </ListItemButton>
         <ListItemButton component={Link} to="/dashboard/squads">
             <ListItemIcon>
