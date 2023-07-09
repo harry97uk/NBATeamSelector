@@ -5,7 +5,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { Button } from '@mui/material';
 import { Breadcrumbs, CircularProgress, Typography } from '@mui/material';
-import { useGoogleMapsApiKey } from './CustomHooks/customHooks';
+import { useGoogleMapsApiKey } from './CustomHooks/googleapihook';
 
 export default function AdminDivList() {
     const apiUrl = 'http://localhost:8000/api/areas';
@@ -21,6 +21,8 @@ export default function AdminDivList() {
     const [continent, setContinent] = useState([])
     const [country, setCountry] = useState([])
     const [loading, setLoading] = useState(true)
+    const [countriesLoaded, setCountriesLoaded] = useState(false);
+    const [areaLoaded, setAreaLoaded] = useState(false);
     const [selectedItemIndex, setSelectedItemIndex] = useState(null);
     const [mapPosition, setMapPosition] = useState("Europe")
 
@@ -29,12 +31,15 @@ export default function AdminDivList() {
         axios.get(apiUrl, apiOptions)
             .then(response => {
                 setAreas(response.data._links['a1:items'])
-                setLoading(false)
+                setAreaLoaded(true)
+                if (countriesLoaded) {
+                    setLoading(false)
+                }
             })
             .catch(error => {
                 console.error(error);
             });
-    }, [])
+    }, [countriesLoaded])
 
     useEffect(() => {
         setLoading(true)
@@ -43,12 +48,15 @@ export default function AdminDivList() {
                 setCountry(response.data)
                 setContinent(response.data._links['country:continent'])
                 setMapPosition(response.data.name)
-                setLoading(false)
+                setCountriesLoaded(true)
+                if (areaLoaded) {
+                    setLoading(false)
+                }
             })
             .catch(error => {
                 console.error(error);
             });
-    }, [])
+    }, [areaLoaded])
 
     const handleItemClick = (index) => {
         setSelectedItemIndex(index);
@@ -59,7 +67,7 @@ export default function AdminDivList() {
         return "/dashboard/area/" + countryID + "/" + href.split("/").slice(-2)[0]
     };
 
-    if (loading) return <CircularProgress/>
+    if (loading) return <CircularProgress />
 
     return (
         <>

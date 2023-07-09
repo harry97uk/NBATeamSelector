@@ -5,7 +5,7 @@ import { Button } from '@mui/material';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { Breadcrumbs, CircularProgress, Typography } from '@mui/material';
-import { useGoogleMapsApiKey } from './CustomHooks/customHooks';
+import { useGoogleMapsApiKey } from './CustomHooks/googleapihook';
 
 export default function CitiesList() {
     const apiUrl = 'http://localhost:8000/api/cities';
@@ -20,6 +20,9 @@ export default function CitiesList() {
     const [area, setArea] = useState([])
     const [country, setCountry] = useState([])
     const [loading, setLoading] = useState(true)
+    const [citiesLoaded, setCitiesLoaded] = useState(false)
+    const [countriesLoaded, setCountriesLoaded] = useState(false);
+    const [areasLoaded, setAreasLoaded] = useState(false);
     const [selectedItemIndex, setSelectedItemIndex] = useState(null);
     const [mapPosition, setMapPosition] = useState("Europe")
     const gak = useGoogleMapsApiKey()
@@ -29,24 +32,30 @@ export default function CitiesList() {
         axios.get(apiUrl, apiOptions)
             .then(response => {
                 setCities(response.data._links['city:items'])
-                setLoading(false)
+                setCitiesLoaded(true)
+                if (countriesLoaded && areasLoaded) {
+                    setLoading(false)
+                }
             })
             .catch(error => {
                 console.error(error);
             });
-    }, [])
+    }, [countriesLoaded, areasLoaded])
 
     useEffect(() => {
         setLoading(true)
         axios.get('http://localhost:8000/api/country', apiOptions)
             .then(response => {
                 setCountry(response.data)
-                setLoading(false)
+                setCountriesLoaded(true)
+                if (citiesLoaded && areasLoaded) {
+                    setLoading(false)
+                }
             })
             .catch(error => {
                 console.error(error);
             });
-    }, [])
+    }, [citiesLoaded, areasLoaded])
 
     useEffect(() => {
         setLoading(true)
@@ -54,12 +63,15 @@ export default function CitiesList() {
             .then(response => {
                 setArea(response.data)
                 setMapPosition(response.data.name)
-                setLoading(false)
+                setAreasLoaded(true)
+                if (citiesLoaded && countriesLoaded) {
+                    setLoading(false)
+                }
             })
             .catch(error => {
                 console.error(error);
             });
-    }, [])
+    }, [citiesLoaded, countriesLoaded])
 
     const handleItemClick = (index) => {
         setSelectedItemIndex(index);

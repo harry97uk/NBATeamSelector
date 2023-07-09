@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { CircularProgress, Breadcrumbs, Typography } from '@mui/material';
-import { useGoogleMapsApiKey } from './CustomHooks/customHooks';
+import { useGoogleMapsApiKey } from './CustomHooks/googleapihook';
 
 export default function CountriesList() {
     const apiUrl = 'http://localhost:8000/api/countries';
@@ -20,6 +20,8 @@ export default function CountriesList() {
     const [selectedItemIndex, setSelectedItemIndex] = useState(null);
     const [mapPosition, setMapPosition] = useState("Europe")
     const [loading, setLoading] = useState(true)
+    const [countriesLoaded, setCountriesLoaded] = useState(false);
+    const [continentLoaded, setContinentLoaded] = useState(false);
     const gak = useGoogleMapsApiKey();
 
     useEffect(() => {
@@ -27,12 +29,15 @@ export default function CountriesList() {
         axios.get(apiUrl, apiOptions)
             .then(response => {
                 setCountries(response.data._links['country:items'])
-                setLoading(false)
+                setCountriesLoaded(true)
+                if (continentLoaded) {
+                    setLoading(false)
+                }
             })
             .catch(error => {
                 console.error(error);
             });
-    }, [])
+    }, [continentLoaded])
 
     useEffect(() => {
         setLoading(true)
@@ -40,12 +45,15 @@ export default function CountriesList() {
             .then(response => {
                 setContinent(response.data)
                 setMapPosition(response.data.name)
-                setLoading(false)
+                setContinentLoaded(true)
+                if (countriesLoaded) {
+                    setLoading(false)
+                }
             })
             .catch(error => {
                 console.error(error);
             });
-    }, [])
+    }, [countriesLoaded])
 
     const handleItemClick = (index) => {
         setSelectedItemIndex(index);

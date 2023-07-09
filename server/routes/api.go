@@ -149,6 +149,22 @@ func HandleUasApiCall(w http.ResponseWriter, r *http.Request) {
 	makeRequest(url, w)
 }
 
+func HandleUaDetailsApiCall(w http.ResponseWriter, r *http.Request) {
+	enableCors(&w)
+
+	uaID := r.URL.Query().Get("uaID")
+
+	url := ""
+
+	if uaID != "" {
+		url = "https://api.teleport.org/api/urban_areas/" + uaID + "/details/"
+	} else {
+		log.Fatal("Invalid UAID for details call")
+	}
+
+	makeRequest(url, w)
+}
+
 func makeRequest(url string, w http.ResponseWriter) {
 	spaceClient := http.Client{
 		Timeout: time.Second * 2, // Timeout after 2 seconds

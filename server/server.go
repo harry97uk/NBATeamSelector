@@ -22,6 +22,7 @@ func main() {
 	router.HandleFunc("/api/cities", routes.HandleCitiesApiCall).Methods("GET")
 	router.HandleFunc("/api/city", routes.HandleCityApiCall).Methods("GET")
 	router.HandleFunc("/api/uas", routes.HandleUasApiCall).Methods("GET")
+	router.HandleFunc("/api/ua/details", routes.HandleUaDetailsApiCall).Methods("GET")
 	router.HandleFunc("/googlemapsapikey", routes.HandleGoogleMapKey).Methods("GET")
 
 	staticDir := "../client/nba-selector-react-project/build"

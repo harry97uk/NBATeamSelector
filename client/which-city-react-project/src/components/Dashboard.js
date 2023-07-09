@@ -11,8 +11,6 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -26,6 +24,7 @@ import CitiesList from './CitiesList';
 import City from './City';
 import FindClosest from './FindClosest';
 import CityForm from './CityForm';
+import UrbanArea from './UrbanArea';
 
 function Copyright(props) {
   return (
@@ -174,6 +173,7 @@ export default function Dashboard() {
               <Route path='/country/*' element={<AdminDivList />} />
               <Route path='/area/*' element={<CitiesList />} />
               <Route path='/city/*' element={<City />} />
+              <Route path='/ua/*' element={<UrbanArea />} />
               <Route path='/findclosest/*' element={<FindClosest />} />
             </Routes>
             <Copyright sx={{ pt: 4 }} />
