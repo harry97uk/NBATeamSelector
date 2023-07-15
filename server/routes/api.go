@@ -167,7 +167,7 @@ func HandleUaDetailsApiCall(w http.ResponseWriter, r *http.Request) {
 
 func makeRequest(url string, w http.ResponseWriter) {
 	spaceClient := http.Client{
-		Timeout: time.Second * 2, // Timeout after 2 seconds
+		Timeout: time.Second * 10, // Timeout after 2 seconds
 	}
 
 	req, err := http.NewRequest(http.MethodGet, url, nil)

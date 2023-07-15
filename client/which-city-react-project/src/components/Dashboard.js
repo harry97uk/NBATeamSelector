@@ -167,7 +167,7 @@ export default function Dashboard() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Routes>
-              <Route path='/cityfinder' element={<CityForm />} />
+              <Route path='/cityfinder/*' element={<CityForm />} />
               <Route path='/continentlist' element={<ContinentList />} />
               <Route path='/continent/*' element={<CountriesList />} />
               <Route path='/country/*' element={<AdminDivList />} />

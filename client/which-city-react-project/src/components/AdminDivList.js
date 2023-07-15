@@ -6,6 +6,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { Button } from '@mui/material';
 import { Breadcrumbs, CircularProgress, Typography } from '@mui/material';
 import { useGoogleMapsApiKey } from './CustomHooks/googleapihook';
+import "../stylesheets/lists.css"
 
 export default function AdminDivList() {
     const apiUrl = 'http://localhost:8000/api/areas';
