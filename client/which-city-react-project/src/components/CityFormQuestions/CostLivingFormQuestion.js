@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Grid, FormLabel, Slider, RadioGroup, FormControlLabel, Radio, Box, Container } from '@mui/material'
+import { Grid, FormLabel, Slider, Box, Container } from '@mui/material'
 import { filterNumericValues } from '../../helpers/formatting';
 import { extractDollarValueFromResponse } from '../../helpers/uasValueExtraction';
 import FormSkeleton from '../FormSkeleton';
@@ -40,37 +40,134 @@ export default function CostLivingFormQuestion({ responses }) {
     const [taxiPriceAnswer, setTaxiPriceAnswer] = useState(0)
     const [restaurantPriceAnswer, setRestaurantPriceAnswer] = useState(0)
 
-    const priceRanges = {
-        apple: ["COST-APPLES", minApplePrice, setMinApplePrice, maxApplePrice, setMaxApplePrice],
-        bread: ["COST-BREAD", minBreadPrice, setMinBreadPrice, maxBreadPrice, setMaxBreadPrice],
-        cappuccino: ["COST-CAPPUCCINO", minCappuccinoPrice, setMinCappuccinoPrice, maxCappuccinoPrice, setMaxCappuccinoPrice],
-        movieTicket: ["COST-CINEMA", minMovieTicketPrice, setMinMovieTicketPrice, maxMovieTicketPrice, setMaxMovieTicketPrice],
-        fitnessClub: ["COST-FITNESS-CLUB", minFitnessClubPrice, setMinFitnessClubPrice, maxFitnessClubPrice, setMaxFitnessClubPrice],
-        beer: ["COST-IMPORT-BEER", minBeerPrice, setMinBeerPrice, maxBeerPrice, setMaxBeerPrice],
-        transport: ["COST-PUBLIC-TRANSPORT", minTransportPrice, setMinTransportPrice, maxTransportPrice, setMaxTransportPrice],
-        lunch: ["COST-RESTAURANT-MEAL", minLunchPrice, setMinLunchPrice, maxLunchPrice, setMaxLunchPrice],
-        taxi: ["COST-TAXI", minTaxiPrice, setMinTaxiPrice, maxTaxiPrice, setMaxTaxiPrice],
-        restaurant: ["RESTAURANT-PRICE-INDEX", minRestaurantPrice, setMinRestaurantPrice, maxRestaurantPrice, setMaxRestaurantPrice]
-    };
-
-    const variables = {
-        applePriceAnswer: setApplePriceAnswer,
-        breadPriceAnswer: setBreadPriceAnswer,
-        cappuccinoPriceAnswer: setCappuccinoPriceAnswer,
-        moviePriceAnswer: setMoviePriceAnswer,
-        fitnessPriceAnswer: setFitnessPriceAnswer,
-        beerPriceAnswer: setBeerPriceAnswer,
-        transportPriceAnswer: setTransportPriceAnswer,
-        lunchPriceAnswer: setLunchPriceAnswer,
-        taxiPriceAnswer: setTaxiPriceAnswer,
-        restaurantPriceAnswer: setRestaurantPriceAnswer,
-    };
+    const questions = [
+        {
+            id: "apple",
+            key: "COST-APPLES",
+            sessionStorageKey: "applePriceAnswer",
+            minPrice: minApplePrice,
+            setMinPrice: setMinApplePrice,
+            maxPrice: maxApplePrice,
+            setMaxPrice: setMaxApplePrice,
+            answer: applePriceAnswer,
+            setAnswer: setApplePriceAnswer,
+            label: "1kg Apples",
+        },
+        {
+            id: "bread",
+            key: "COST-BREAD",
+            sessionStorageKey: "breadPriceAnswer",
+            minPrice: minBreadPrice,
+            setMinPrice: setMinBreadPrice,
+            maxPrice: maxBreadPrice,
+            setMaxPrice: setMaxBreadPrice,
+            answer: breadPriceAnswer,
+            setAnswer: setBreadPriceAnswer,
+            label: "Loaf of Bread",
+        },
+        {
+            id: "cappuccino",
+            key: "COST-CAPPUCCINO",
+            sessionStorageKey: "cappuccinoPriceAnswer",
+            minPrice: minCappuccinoPrice,
+            setMinPrice: setMinCappuccinoPrice,
+            maxPrice: maxCappuccinoPrice,
+            setMaxPrice: setMaxCappuccinoPrice,
+            answer: cappuccinoPriceAnswer,
+            setAnswer: setCappuccinoPriceAnswer,
+            label: "A Cappuccino",
+        },
+        {
+            id: "movieTicket",
+            key: "COST-CINEMA",
+            sessionStorageKey: "moviePriceAnswer",
+            minPrice: minMovieTicketPrice,
+            setMinPrice: setMinMovieTicketPrice,
+            maxPrice: maxMovieTicketPrice,
+            setMaxPrice: setMaxMovieTicketPrice,
+            answer: moviePriceAnswer,
+            setAnswer: setMoviePriceAnswer,
+            label: "Cinema Ticket",
+        },
+        {
+            id: "fitnessClub",
+            key: "COST-FITNESS-CLUB",
+            sessionStorageKey: "fitnessPriceAnswer",
+            minPrice: minFitnessClubPrice,
+            setMinPrice: setMinFitnessClubPrice,
+            maxPrice: maxFitnessClubPrice,
+            setMaxPrice: setMaxFitnessClubPrice,
+            answer: fitnessPriceAnswer,
+            setAnswer: setFitnessPriceAnswer,
+            label: "Monthly Fitness Club Subscription",
+        },
+        {
+            id: "beer",
+            key: "COST-IMPORT-BEER",
+            sessionStorageKey: "beerPriceAnswer",
+            minPrice: minBeerPrice,
+            setMinPrice: setMinBeerPrice,
+            maxPrice: maxBeerPrice,
+            setMaxPrice: setMaxBeerPrice,
+            answer: beerPriceAnswer,
+            setAnswer: setBeerPriceAnswer,
+            label: "A Beer",
+        },
+        {
+            id: "transport",
+            key: "COST-PUBLIC-TRANSPORT",
+            sessionStorageKey: "transportPriceAnswer",
+            minPrice: minTransportPrice,
+            setMinPrice: setMinTransportPrice,
+            maxPrice: maxTransportPrice,
+            setMaxPrice: setMaxTransportPrice,
+            answer: transportPriceAnswer,
+            setAnswer: setTransportPriceAnswer,
+            label: "Monthly Public Transport Cost",
+        },
+        {
+            id: "lunch",
+            key: "COST-RESTAURANT-MEAL",
+            sessionStorageKey: "lunchPriceAnswer",
+            minPrice: minLunchPrice,
+            setMinPrice: setMinLunchPrice,
+            maxPrice: maxLunchPrice,
+            setMaxPrice: setMaxLunchPrice,
+            answer: lunchPriceAnswer,
+            setAnswer: setLunchPriceAnswer,
+            label: "Lunch at a Restaurant",
+        },
+        {
+            id: "taxi",
+            key: "COST-TAXI",
+            sessionStorageKey: "taxiPriceAnswer",
+            minPrice: minTaxiPrice,
+            setMinPrice: setMinTaxiPrice,
+            maxPrice: maxTaxiPrice,
+            setMaxPrice: setMaxTaxiPrice,
+            answer: taxiPriceAnswer,
+            setAnswer: setTaxiPriceAnswer,
+            label: "5km Taxi Ride",
+        },
+        {
+            id: "restaurant",
+            key: "RESTAURANT-PRICE-INDEX",
+            sessionStorageKey: "restaurantPriceAnswer",
+            minPrice: minRestaurantPrice,
+            setMinPrice: setMinRestaurantPrice,
+            maxPrice: maxRestaurantPrice,
+            setMaxPrice: setMaxRestaurantPrice,
+            answer: restaurantPriceAnswer,
+            setAnswer: setRestaurantPriceAnswer,
+            label: "Dinner at a Restaurant",
+        },
+    ];
 
     useEffect(() => {
-        Object.entries(variables).forEach(([key, setter]) => {
-            const savedAnswer = sessionStorage.getItem(key);
+        questions.forEach(q => {
+            const savedAnswer = sessionStorage.getItem(q.sessionStorageKey);
             if (savedAnswer) {
-                setter(Number(savedAnswer))
+                q.setAnswer(Number(savedAnswer))
             }
         });
     }, []);
@@ -84,31 +181,28 @@ export default function CostLivingFormQuestion({ responses }) {
 
     async function findMinMaxCostLivingValues() {
 
-        for (const [key, [id, minValue, setMinValue, maxValue, setMaxValue]] of Object.entries(priceRanges)) {
+        questions.forEach(q => {
             const minPrice = Math.min(
                 ...filterNumericValues(
-                    responses.map(response => extractDollarValueFromResponse(response, "COST-OF-LIVING", `${id}`))
+                    responses.map(response => extractDollarValueFromResponse(response, "COST-OF-LIVING", `${q.key}`))
                 )
             );
             const maxPrice = Math.max(
                 ...filterNumericValues(
-                    responses.map(response => extractDollarValueFromResponse(response, "COST-OF-LIVING", `${id}`))
+                    responses.map(response => extractDollarValueFromResponse(response, "COST-OF-LIVING", `${q.key}`))
                 )
             );
-            setMinValue(minPrice);
-            setMaxValue(maxPrice);
-        }
+            q.setMinPrice(minPrice);
+            q.setMaxPrice(maxPrice);
+        })
     }
 
     const handleChange = (event, newValue) => {
-        switch (event.target.name) {
-            case "apple-price":
-                setApplePriceAnswer(newValue)
-                sessionStorage.setItem("applePriceAnswer", newValue)
-                break;
-            default:
-                break;
-        }
+        const q = questions.find(q => q.id + "-price" == event.target.name)
+
+        q.setAnswer(newValue)
+        sessionStorage.setItem(q.sessionStorageKey, newValue)
+
     };
 
     if (loading) return <FormSkeleton />
@@ -130,41 +224,45 @@ export default function CostLivingFormQuestion({ responses }) {
                                 Cost Of Living
                             </FormLabel>
                         </Grid>
-                        <Grid
-                            item xs={12}
-                            sx={{ p: 10, borderBottom: 1, display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-                            <FormLabel
-                                htmlFor="apple-price"
-                                sx={{
-                                    fontWeight: '1000',
-                                    color: 'black',
-                                    fontSize: '1.5rem',
-                                    textAlign: 'center'
-                                }}>
-                                1kg Apples
-                            </FormLabel>
-                            <Slider
-                                name="apple-price"
-                                value={applePriceAnswer}
-                                onChange={handleChange}
-                                aria-label="Default"
-                                valueLabelDisplay="auto"
-                                min={minApplePrice || 0}
-                                max={maxApplePrice || 0}
-                                step={0.1}
-                                marks={[
-                                    { value: minApplePrice, label: `$${minApplePrice}` },
-                                    { value: maxApplePrice, label: `$${maxApplePrice}` },
-                                    {
-                                        value: Math.round((maxApplePrice + minApplePrice) / 2),
-                                        label: `$${Math.round((maxApplePrice + minApplePrice) / 2)}`,
-                                    },
-                                ]}
-                                sx={{
-                                    width: 0.6,
-                                }}
-                            />
-                        </Grid>
+                        {questions.map(q => {
+                            return (<Grid
+                                key={q.id}
+                                item xs={12}
+                                sx={{ p: 10, borderBottom: 1, display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
+                                <FormLabel
+                                    htmlFor={`${q.id}-price`}
+                                    sx={{
+                                        fontWeight: '1000',
+                                        color: 'black',
+                                        fontSize: '1.5rem',
+                                        textAlign: 'center',
+                                        width: 0.3
+                                    }}>
+                                    {q.label}
+                                </FormLabel>
+                                <Slider
+                                    name={`${q.id}-price`}
+                                    value={q.answer}
+                                    onChange={handleChange}
+                                    aria-label="Default"
+                                    valueLabelDisplay="auto"
+                                    min={q.minPrice || 0}
+                                    max={q.maxPrice || 0}
+                                    step={0.1}
+                                    marks={[
+                                        { value: q.minPrice || 0, label: `$${q.minPrice}` },
+                                        { value: q.maxPrice || 0, label: `$${q.maxPrice}` },
+                                        {
+                                            value: Math.round((q.maxPrice + q.minPrice) / 2),
+                                            label: `$${Math.round((q.maxPrice + q.minPrice) / 2)}`,
+                                        },
+                                    ]}
+                                    sx={{
+                                        width: 0.6,
+                                    }}
+                                />
+                            </Grid>)
+                        })}
                     </Grid>
                 </Box>
             </Container>

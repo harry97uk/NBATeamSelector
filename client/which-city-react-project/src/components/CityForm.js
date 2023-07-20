@@ -6,6 +6,10 @@ import { CircularProgress, Container, Tab, Tabs, Box } from '@mui/material';
 import ClimateFormQuestion from './CityFormQuestions/ClimateFormQuestion'
 import { useAllUas } from './CustomHooks/uaHook';
 import CostLivingFormQuestion from './CityFormQuestions/CostLivingFormQuestion';
+import CultureFormQuestion from './CityFormQuestions/CultureFormQuestion';
+import EconomyFormQuestion from './CityFormQuestions/EconomyFormQuestion';
+import EducationFormQuestion from './CityFormQuestions/EducationFormQuestion';
+import HealthcareFormQuestion from './CityFormQuestions/HealthcareFormQuestion';
 
 export default function CityForm() {
   const [loading, setLoading] = useState(true)
@@ -41,6 +45,14 @@ export default function CityForm() {
         return <ClimateFormQuestion responses={uasResponses} />
       case 1:
         return <CostLivingFormQuestion responses={uasResponses} />
+      case 2:
+        return <CultureFormQuestion />
+      case 3:
+        return <EconomyFormQuestion />
+      case 4:
+        return <EducationFormQuestion />
+      case 5:
+        return <HealthcareFormQuestion responses={uasResponses} />
       // Add cases for other pages/routes
       default:
         return null;

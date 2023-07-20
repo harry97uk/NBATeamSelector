@@ -127,7 +127,9 @@ export default function ClimateFormQuestion({ responses }) {
                   sx={{
                     fontWeight: '1000',
                     color: 'black',
-                    fontSize: '1.5rem'
+                    fontSize: '1.5rem',
+                    width: 0.3,
+                    textAlign: 'center'
                   }}>
                   Sunlight
                 </FormLabel>
@@ -137,7 +139,7 @@ export default function ClimateFormQuestion({ responses }) {
                   row
                   name="sunlight"
                   value={sunlightAnswer}
-                  sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'left' }}
+                  sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}
                   onChange={handleChange}
                 >
                   <FormControlLabel
@@ -169,7 +171,9 @@ export default function ClimateFormQuestion({ responses }) {
                 sx={{
                   fontWeight: '1000',
                   color: 'black',
-                  fontSize: '1.5rem'
+                  fontSize: '1.5rem',
+                  width: 0.3,
+                  textAlign: 'center'
                 }}>
                 Rain
               </FormLabel>
@@ -178,7 +182,7 @@ export default function ClimateFormQuestion({ responses }) {
                 name="rain"
                 value={rainAnswer}
                 onChange={handleChange}
-                sx={{ display: 'flex', justifyContent: 'center', textAlign: 'left' }}
+                sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: 0.5 }}
               >
                 <FormControlLabel
                   value="rainy"
@@ -209,7 +213,8 @@ export default function ClimateFormQuestion({ responses }) {
                   fontWeight: '1000',
                   color: 'black',
                   fontSize: '1.5rem',
-                  textAlign: 'center'
+                  textAlign: 'center',
+                  width: 0.3
                 }}>
                 Preferred Winter Temperature
               </FormLabel>
@@ -225,8 +230,8 @@ export default function ClimateFormQuestion({ responses }) {
                 marks={[
                   { value: 0, label: '0°C' },
                   { value: 20, label: '20°C' },
-                  { value: minAverageLowTemp, label: `${minAverageLowTemp}°C` },
-                  { value: maxAverageLowTemp, label: `${maxAverageLowTemp}°C` },
+                  { value: minAverageLowTemp || 0, label: `${minAverageLowTemp}°C` },
+                  { value: maxAverageLowTemp || 0, label: `${maxAverageLowTemp}°C` },
                   {
                     value: Math.round((maxAverageLowTemp + minAverageLowTemp) / 2),
                     label: `${Math.round((maxAverageLowTemp + minAverageLowTemp) / 2)}°C`,
@@ -246,7 +251,8 @@ export default function ClimateFormQuestion({ responses }) {
                   fontWeight: '1000',
                   color: 'black',
                   fontSize: '1.5rem',
-                  textAlign: 'center'
+                  textAlign: 'center',
+                  width: 0.3
                 }}>
                 Preferred Summer Temperature
               </FormLabel>
@@ -262,8 +268,8 @@ export default function ClimateFormQuestion({ responses }) {
                 marks={[
                   { value: 10, label: '10°C' },
                   { value: 25, label: '25°C' },
-                  { value: minAverageHighTemp, label: `${minAverageHighTemp}°C` },
-                  { value: maxAverageHighTemp, label: `${maxAverageHighTemp}°C` },
+                  { value: minAverageHighTemp || 0, label: `${minAverageHighTemp}°C` },
+                  { value: maxAverageHighTemp || 0, label: `${maxAverageHighTemp}°C` },
                   {
                     value: Math.round((maxAverageHighTemp + minAverageHighTemp) / 2),
                     label: `${Math.round((maxAverageHighTemp + minAverageHighTemp) / 2)}°C`,
