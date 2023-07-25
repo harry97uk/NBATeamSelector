@@ -10,13 +10,14 @@ import CultureFormQuestion from './CityFormQuestions/CultureFormQuestion';
 import EconomyFormQuestion from './CityFormQuestions/EconomyFormQuestion';
 import EducationFormQuestion from './CityFormQuestions/EducationFormQuestion';
 import HealthcareFormQuestion from './CityFormQuestions/HealthcareFormQuestion';
+import HousingFormQuestion from './CityFormQuestions/HousingFormQuestion';
 
 export default function CityForm() {
   const [loading, setLoading] = useState(true)
+  const [progress, setProgress] = useState(0);
   const [uas, uasLoading] = useAllUas()
   const [uasResponses, setUasResponses] = useState([])
   const [currentPage, setCurrentPage] = useState(0);
-  const finalPage = 10
 
   async function fetchUasData(ua) {
     try {
@@ -25,7 +26,7 @@ export default function CityForm() {
         params: {
           uaID: "slug:" + uaSlugID,
         },
-      });
+      })
       return response;
     } catch (error) {
       console.log(error);
@@ -53,6 +54,8 @@ export default function CityForm() {
         return <EducationFormQuestion />
       case 5:
         return <HealthcareFormQuestion responses={uasResponses} />
+      case 6:
+        return <HousingFormQuestion responses={uasResponses} />
       // Add cases for other pages/routes
       default:
         return null;
